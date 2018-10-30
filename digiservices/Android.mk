@@ -1,0 +1,18 @@
+-include $(TOPDIR)frameworks/opt/digiservices/src_available.mk
+
+ifneq ($(DIGI_SERVICES_SRC_AVAILABLE),true)
+
+LOCAL_PATH := $(call my-dir)
+
+# Copy digiservices.jar to /system/framework/
+include $(CLEAR_VARS)
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE := digiservices
+LOCAL_MODULE_CLASS := JAVA_LIBRARIES
+LOCAL_MODULE_PATH := $(TARGET_OUT_JAVA_LIBRARIES)
+LOCAL_MODULE_SUFFIX := $(COMMON_JAVA_PACKAGE_SUFFIX)
+LOCAL_SRC_FILES := $(LOCAL_MODULE)$(LOCAL_MODULE_SUFFIX)
+LOCAL_BUILT_MODULE_STEM := $(LOCAL_MODULE)$(COMMON_JAVA_PACKAGE_SUFFIX)
+include $(BUILD_PREBUILT)
+
+endif
