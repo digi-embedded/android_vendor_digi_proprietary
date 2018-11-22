@@ -4,17 +4,6 @@ ifneq ($(DIGI_SDK_ADDON_SRC_AVAILABLE),true)
 
 LOCAL_PATH := $(call my-dir)
 
-# Copy libdigiapi_jni.so to /system/lib/
-include $(CLEAR_VARS)
-LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE := libdigiapi_jni
-LOCAL_MODULE_CLASS := SHARED_LIBRARIES
-LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)
-LOCAL_MODULE_SUFFIX := .so
-LOCAL_SRC_FILES := $(LOCAL_MODULE)$(LOCAL_MODULE_SUFFIX)
-LOCAL_BUILT_MODULE_STEM := $(LOCAL_MODULE)$(LOCAL_MODULE_SUFFIX)
-include $(BUILD_PREBUILT)
-
 # Copy com.digi.android.jar to /system/framework/
 include $(CLEAR_VARS)
 LOCAL_MODULE_TAGS := optional
