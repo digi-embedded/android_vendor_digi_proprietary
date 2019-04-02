@@ -23,15 +23,14 @@ LOCAL_MODULE_CLASS := JAVA_LIBRARIES
 LOCAL_MODULE_PATH := $(TARGET_OUT_JAVA_LIBRARIES)
 LOCAL_MODULE_SUFFIX := $(COMMON_JAVA_PACKAGE_SUFFIX)
 LOCAL_SRC_FILES := $(LOCAL_MODULE)$(LOCAL_MODULE_SUFFIX)
-LOCAL_BUILT_MODULE_STEM := $(LOCAL_MODULE)$(COMMON_JAVA_PACKAGE_SUFFIX)
-stubs.intermediates := $(call local-intermediates-dir, COMMON)
-stubs.src_file := $(LOCAL_PATH)/$(LOCAL_MODULE)$(LOCAL_MODULE_SUFFIX)
-$(stubs.intermediates)/classes.dex.toc: $(stubs.src_file)
-	@mkdir -p $(dir $@)
-	$(hide) rm -f $(stubs.intermediates)/classes.jack
-	$(hide) cp $< $(stubs.intermediates)/classes.jack
-	$(hide) touch $@
 include $(BUILD_PREBUILT)
+
+# Transfer the stubs jar to the proper place (intermediates/classes-header.jar)
+# so the applications depending on it, are able to find it.
+com_digi_android_stubs_classes := $(common_header_jar)
+com_digi_android_stubs_src := $(my_src_jar)
+$(com_digi_android_stubs_classes): $(com_digi_android_stubs_src)
+	$(transform-prebuilt-to-target)
 
 # Copy com.digi.android.xml to /system/etc/permissions/
 include $(CLEAR_VARS)
