@@ -19,6 +19,7 @@ include $(BUILD_PREBUILT)
 # Build digiservices.jar from the static library
 include $(CLEAR_VARS)
 LOCAL_MODULE := digiservices
+LOCAL_REQUIRED_MODULES := services RXTXcomm CloudConnectorAndroid
 LOCAL_STATIC_JAVA_LIBRARIES := staticdigiservices
 include $(BUILD_JAVA_LIBRARY)
 include $(CLEAR_VARS)
