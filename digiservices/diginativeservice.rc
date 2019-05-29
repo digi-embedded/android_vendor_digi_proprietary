@@ -1,0 +1,7 @@
+service diginativeservice /system/bin/diginativeservice
+    class main
+    user system
+    group system net_admin net_raw
+    ioprio rt 4
+    capabilities NET_ADMIN NET_RAW
+    writepid /dev/cpuset/foreground/tasks
