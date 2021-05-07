@@ -1,0 +1,33 @@
+preferred=false
+
+// Copy com.digi.android.jar to /system/framework/
+java_import {
+    name: "com.digi.android",
+    jars: [
+        "com.digi.android.jar",
+    ],
+    required: [
+        "com.digi.android.xml-prebuilt",
+        "digiservices",
+    ],
+    installable: true,
+    prefer: preferred,
+}
+
+// Digi API stubs
+java_import {
+    name: "com.digi.android.stubs",
+    jars: [
+        "com.digi.android.stubs.jar",
+    ],
+    installable: false,
+    prefer: preferred,
+}
+
+// Copy com.digi.android.xml to /system/etc/permissions/
+prebuilt_etc {
+    name: "com.digi.android.xml-prebuilt",
+    src: "com.digi.android.xml",
+    sub_dir: "permissions",
+    filename: "com.digi.android.xml",
+}

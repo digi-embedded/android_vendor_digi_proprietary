@@ -1,0 +1,108 @@
+preferred=false
+
+// Copy libdigiservices.so to /system/lib/
+cc_prebuilt_library_shared {
+    name: "libdigiservices",
+    shared_libs: [
+        "liblog",
+        "libnativehelper",
+        "libcutils",
+    ],
+    multilib: {
+        lib32: {
+            srcs: ["libdigiservices-arm32.so"],
+        },
+        lib64: {
+            srcs: ["libdigiservices-arm64.so"],
+        },
+    },
+    installable: true,
+    prefer: preferred,
+}
+
+// We need the 'java_import' and the 'java_library' because only the
+// 'java_import' does not work when the library is a boot jar.
+// Build digiservices.jar from the static library
+java_import {
+    name: "staticdigiservices",
+    jars: [
+        "digiservices.jar",
+    ],
+    prefer: preferred,
+}
+
+java_library {
+    name: "digiservices",
+    installable: true,
+    required: [
+        "services",
+        "RXTXcomm",
+        "CloudConnectorAndroid",
+        "digiservices.xml-prebuilt",
+        "libdigiservices",
+        "diginativeservice",
+    ],
+    static_libs: ["staticdigiservices"],
+}
+
+// Copy digiservices.xml to /system/etc/permissions/
+prebuilt_etc {
+    name: "digiservices.xml-prebuilt",
+    src: "digiservices.xml",
+    sub_dir: "permissions",
+    filename: "digiservices.xml",
+}
+
+// Copy libdiginativeservice.so to /system/lib/
+cc_prebuilt_library_shared {
+    name: "libdiginativeservice",
+    shared_libs: [
+        "libbinder",
+        "libutils",
+        "liblog",
+        "libsocketcan",
+    ],
+    required: [
+        "libsocketcan",
+    ],
+    multilib: {
+        lib32: {
+            srcs: ["libdiginativeservice-arm32.so"],
+        },
+        lib64: {
+            srcs: ["libdiginativeservice-arm64.so"],
+        },
+    },
+    installable: true,
+    prefer: preferred,
+}
+
+// Copy diginativeservice to /system/bin/
+cc_prebuilt_binary {
+    name: "diginativeservice",
+    shared_libs: [
+        "libdiginativeservice",
+        "libbinder",
+        "libutils",
+        "liblog",
+    ],
+    required: [
+        "libdiginativeservice",
+        "diginativeservice.rc",
+    ],
+    compile_multilib: "both",
+    multilib: {
+        lib32: {
+            srcs: ["diginativeservice32"],
+            suffix: "32",
+        },
+        lib64: {
+            srcs: ["diginativeservice64"],
+            suffix: "64",
+        },
+    },
+    init_rc: ["diginativeservice.rc"],
+    symlink_preferred_arch: true,
+    installable: true,
+    prefer: preferred,
+}

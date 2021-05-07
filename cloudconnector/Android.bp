@@ -1,0 +1,17 @@
+preferred=false
+
+// We need the 'java_import' and the 'java_library' because only the
+// 'java_import' does not work when the library is a boot jar.
+java_import {
+    name: "libcloudconnector",
+    jars: [
+        "CloudConnectorAndroid.jar",
+    ],
+    prefer: preferred,
+}
+
+java_library {
+    name: "CloudConnectorAndroid",
+    installable: true,
+    static_libs: ["libcloudconnector"],
+}
