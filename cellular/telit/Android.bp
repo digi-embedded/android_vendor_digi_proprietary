@@ -1,0 +1,89 @@
+preferred=false
+
+// Copy libreference-ril-telit-serial.so to /vendor/lib/
+cc_prebuilt_library {
+    name: "libreference-ril-telit-serial",
+    vendor: true,
+    shared_libs: [
+        "libbase",
+        "libcutils",
+        "liblog",
+        "librilutils",
+        "libril-telit-lib",
+        "libutils",
+    ],
+    multilib: {
+        lib32: {
+            srcs: ["libreference-ril-telit-serial-arm32.so"],
+        },
+        lib64: {
+            srcs: ["libreference-ril-telit-serial-arm64.so"],
+        },
+    },
+    installable: true,
+    prefer: preferred
+}
+
+// Copy libril-telit-lib.so to /vendor/lib/
+cc_prebuilt_library {
+    name: "libril-telit-lib",
+    vendor: true,
+    shared_libs: [
+        "android.hardware.radio@1.0",
+        "android.hardware.radio@1.1",
+        "android.hardware.radio@1.2",
+        "android.hardware.radio@1.3",
+        "android.hardware.radio@1.4",
+        "android.hardware.radio.config@1.0",
+        "android.hardware.radio.config@1.1",
+        "android.hardware.radio.config@1.2",
+        "android.hardware.radio.deprecated@1.0",
+        "libcutils",
+        "libhardware_legacy",
+        "libhidlbase",
+        "liblog",
+        "librilutils",
+        "libutils",
+    ],
+    static_libs: [
+        "libprotobuf-c-nano-enable_malloc"
+    ],
+    multilib: {
+        lib32: {
+            srcs: ["libril-telit-lib-arm32.so"],
+        },
+        lib64: {
+            srcs: ["libril-telit-lib-arm64.so"],
+        },
+    },
+    installable: true,
+    prefer: preferred
+}
+
+// Copy libtelit-rild to /vendor/bin/hw
+cc_prebuilt_binary {
+    name: "libtelit-rild",
+    vendor: true,
+    shared_libs: [
+        "libcutils",
+        "libdl",
+        "liblog",
+        "libril-telit-lib",
+    ],
+    compile_multilib: "both",
+    multilib: {
+        lib32: {
+            srcs: ["libtelit-rild32"],
+            suffix: "32",
+        },
+        lib64: {
+            srcs: ["libtelit-rild64"],
+            suffix: "64",
+        },
+    },
+    init_rc: ["rild_telit.rc"],
+    relative_install_path: "hw",
+    overrides: ["rild"],
+    installable: true,
+    prefer: preferred
+}
