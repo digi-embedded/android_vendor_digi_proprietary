@@ -7,6 +7,7 @@ cc_prebuilt_library_shared {
         "liblog",
         "libnativehelper",
         "libcutils",
+        "libtrustfence",
     ],
     multilib: {
         lib32: {

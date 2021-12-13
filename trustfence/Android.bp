@@ -1,0 +1,20 @@
+preferred=false
+
+// Copy libtrustfence.so to /system/lib/
+cc_prebuilt_library_shared {
+    name: "libtrustfence",
+    shared_libs: [
+        "libutils",
+        "liblog",
+    ],
+    multilib: {
+        lib32: {
+            srcs: ["libtrustfence-arm32.so"],
+        },
+        lib64: {
+            srcs: ["libtrustfence-arm64.so"],
+        },
+    },
+    installable: true,
+    prefer: preferred,
+}
