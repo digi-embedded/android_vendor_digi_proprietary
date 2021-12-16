@@ -64,26 +64,19 @@ cc_prebuilt_library {
 cc_prebuilt_binary {
     name: "libtelit-rild",
     vendor: true,
-    shared_libs: [
-        "libcutils",
-        "libdl",
-        "liblog",
-        "libril-telit-lib",
-    ],
-    compile_multilib: "both",
+    compile_multilib: "first",
     multilib: {
         lib32: {
             srcs: ["libtelit-rild32"],
-            suffix: "32",
         },
         lib64: {
             srcs: ["libtelit-rild64"],
-            suffix: "64",
         },
     },
     init_rc: ["rild_telit.rc"],
     relative_install_path: "hw",
     overrides: ["rild"],
+    check_elf_files: false,
     installable: true,
     prefer: preferred
 }
