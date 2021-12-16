@@ -41,7 +41,7 @@ java_library {
         "CloudConnectorAndroid",
         "digiservices.xml-prebuilt",
         "libdigiservices",
-        "diginativeservice",
+        "diginativeservice64",
     ],
     static_libs: ["staticdigiservices"],
 }
@@ -78,32 +78,17 @@ cc_prebuilt_library_shared {
     prefer: preferred,
 }
 
-// Copy diginativeservice to /system/bin/
-cc_prebuilt_binary {
-    name: "diginativeservice",
-    shared_libs: [
-        "libdiginativeservice",
-        "libbinder",
-        "libutils",
-        "liblog",
-    ],
+// This should be probably 'cc_prebuilt_binary', but somehow the symlinks are
+// not being created in that case, so abuse 'sh_binary' which does the job just
+// fine (binary is installed and symlinks created).
+sh_binary {
+    name: "diginativeservice64",
     required: [
         "libdiginativeservice",
-        "diginativeservice.rc",
     ],
-    compile_multilib: "both",
-    multilib: {
-        lib32: {
-            srcs: ["diginativeservice32"],
-            suffix: "32",
-        },
-        lib64: {
-            srcs: ["diginativeservice64"],
-            suffix: "64",
-        },
-    },
+    src: "diginativeservice64",
+    symlinks: [
+        "diginativeservice",
+    ],
     init_rc: ["diginativeservice.rc"],
-    symlink_preferred_arch: true,
-    installable: true,
-    prefer: preferred,
 }
